@@ -30,6 +30,10 @@ export default function FilterForm() {
       }
       newSearchParams.set(key, value);
     }
+
+    // Reset to the first page when filters change
+    newSearchParams.set("offset", "0");
+
     router.replace(`${pathname}?${newSearchParams}`);
   });
 

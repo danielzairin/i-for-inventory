@@ -30,6 +30,8 @@ export const inventory = new Hono<{ Variables: Variables }>()
             .enum(["id", "name", "price", "quantity"])
             .optional(),
           ["sort_direction"]: z.enum(["asc", "desc"]).optional(),
+          ["limit"]: z.coerce.number().min(0).optional(),
+          ["offset"]: z.coerce.number().min(0).optional(),
         })
         .safeParse(value);
 
@@ -61,6 +63,8 @@ export const inventory = new Hono<{ Variables: Variables }>()
           }
           return order[q.sort_direction](p[q.sort_field]);
         },
+        limit: q.limit || 25,
+        offset: q.offset || 0,
       });
 
       return c.json(products);

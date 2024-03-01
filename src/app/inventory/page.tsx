@@ -5,6 +5,7 @@ import { getServerAPICaller } from "@/lib/api-caller/server";
 import { mustGetSession } from "@/lib/session/server";
 import { PERMISSION, hasPermission } from "@/core/permissions";
 import { noPermissionRedirect } from "@/lib/utils/server";
+import { Pagination } from "./Pagination";
 
 export const dynamic = "force-dynamic";
 
@@ -15,8 +16,11 @@ type Props = {
     max_price?: string;
     sort_field?: string;
     sort_direction?: string;
+    offset?: string;
   };
 };
+
+const ITEMS_PER_PAGE = 25;
 
 export default async function Page({ searchParams }: Props) {
   const session = mustGetSession();
@@ -25,7 +29,12 @@ export default async function Page({ searchParams }: Props) {
   }
 
   const api = getServerAPICaller();
-  const res = await api.inventory.$get({ query: searchParams });
+  const res = await api.inventory.$get({
+    query: {
+      ...searchParams,
+      limit: ITEMS_PER_PAGE.toString(),
+    },
+  });
 
   if (!res.ok) {
     throw Error(`failed to fetch inventory, status: ${res.status}`);
@@ -77,6 +86,7 @@ export default async function Page({ searchParams }: Props) {
           ))}
         </tbody>
       </table>
+      <Pagination itemsPerPage={ITEMS_PER_PAGE} numItemsNow={products.length} />
     </main>
   );
 }
