@@ -1,6 +1,9 @@
 import EditProductForm from "./EditProductForm";
 import Link from "next/link";
 import { getServerAPICaller } from "@/lib/api-caller/server";
+import { hasPermission, PERMISSION } from "@/core/permissions";
+import { mustGetSession } from "@/lib/session/server";
+import { noPermissionRedirect } from "@/lib/utils/server";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +14,11 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
+  const session = mustGetSession();
+  if (!hasPermission(session.permissions, PERMISSION.UPDATE_PRODUCT)) {
+    noPermissionRedirect();
+  }
+
   const api = getServerAPICaller();
   const res = await api.inventory[":productID"].$get({
     param: params,

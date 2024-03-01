@@ -2,6 +2,9 @@ import FilterForm from "./FilterForm";
 import Link from "next/link";
 import SortableTableHeaders from "./SortableTableHeaders";
 import { getServerAPICaller } from "@/lib/api-caller/server";
+import { mustGetSession } from "@/lib/session/server";
+import { PERMISSION, hasPermission } from "@/core/permissions";
+import { noPermissionRedirect } from "@/lib/utils/server";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +19,11 @@ type Props = {
 };
 
 export default async function Page({ searchParams }: Props) {
+  const session = mustGetSession();
+  if (!hasPermission(session.permissions, PERMISSION.READ_PRODUCT)) {
+    noPermissionRedirect();
+  }
+
   const api = getServerAPICaller();
   const res = await api.inventory.$get({ query: searchParams });
 

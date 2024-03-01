@@ -38,7 +38,7 @@ async function loginAction(formData: FormData) {
 export default async function Page({ searchParams }: Props) {
   return (
     <main className="min-h-screen flex items-center justify-center">
-      <article>
+      <article className="max-w-[600px]">
         <h1>Login</h1>
         {searchParams.message && (
           <p className="text-red-400">{searchParams.message}</p>

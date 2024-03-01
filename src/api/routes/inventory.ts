@@ -40,8 +40,12 @@ export const inventory = new Hono<{ Variables: Variables }>()
       return parsed.data;
     }),
     async (c) => {
-      const { m } = c.var;
+      const { m, user } = c.var;
       const q = c.req.valid("query");
+
+      if (!hasPermission(user!.permissions, PERMISSION.READ_PRODUCT)) {
+        throw new HTTPException(403);
+      }
 
       const products = await m.products.findMany({
         where: (p, { like, lte, gte, and }) => {
@@ -80,8 +84,12 @@ export const inventory = new Hono<{ Variables: Variables }>()
       return parsed.data;
     }),
     async (c) => {
-      const { m } = c.var;
+      const { m, user } = c.var;
       const { productID } = c.req.valid("param");
+
+      if (!hasPermission(user!.permissions, PERMISSION.READ_PRODUCT)) {
+        throw new HTTPException(403);
+      }
 
       const product = await m.products.findFirst({
         where: (p, { eq }) => eq(p.id, productID),
@@ -151,8 +159,13 @@ export const inventory = new Hono<{ Variables: Variables }>()
       return parsed.data;
     }),
     async (c) => {
-      const { m } = c.var;
+      const { m, user } = c.var;
       const data = c.req.valid("form");
+
+      if (!hasPermission(user!.permissions, PERMISSION.UPDATE_PRODUCT)) {
+        throw new HTTPException(403);
+      }
+
       const { productID, ...updates } = data;
 
       const product = await m.products.updateOne(productID, updates);
@@ -178,8 +191,12 @@ export const inventory = new Hono<{ Variables: Variables }>()
       return parsed.data;
     }),
     async (c) => {
-      const { m } = c.var;
+      const { m, user } = c.var;
       const { productID } = c.req.valid("form");
+
+      if (!hasPermission(user!.permissions, PERMISSION.DELETE_PRODUCT)) {
+        throw new HTTPException(403);
+      }
 
       await m.products.deleteOne(productID);
 
