@@ -39,6 +39,9 @@ export default async function Page({ searchParams }: Props) {
   return (
     <main className="min-h-screen flex items-center justify-center">
       <article className="max-w-[600px]">
+        <Link href="/" className="inline-block mb-4">
+          Back to home page
+        </Link>
         <h1>Login</h1>
         {searchParams.message && (
           <p className="text-red-400">{searchParams.message}</p>

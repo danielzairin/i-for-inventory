@@ -35,6 +35,9 @@ export default async function Page({ searchParams }: Props) {
 
   return (
     <main className="container">
+      <Link href="/" className="inline-block mb-4">
+        Back to home page
+      </Link>
       <h1>Inventory 📦</h1>
       <details>
         <summary>
