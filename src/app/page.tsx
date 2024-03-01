@@ -1,18 +1,14 @@
-import { api } from "@/lib/api-client";
+import Link from "next/link";
 
-export default async function Home() {
-  const res = await api.inventory.$get();
-
-  if (!res.ok) {
-    throw Error(`failed to fetch inventory, status: ${res.status}`);
-  }
-
-  const data = await res.json();
-
+export default function Home() {
   return (
-    <main>
-      <p>Hello, world</p>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+    <main className="flex items-center justify-center min-h-screen">
+      <article className="min-w-[400px] text-center">
+        <h1>Pages</h1>
+        <Link href="/inventory" className="text-lg">
+          Inventory 📦
+        </Link>
+      </article>
     </main>
   );
 }
