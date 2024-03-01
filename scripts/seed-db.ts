@@ -5,6 +5,20 @@ import { faker } from "@faker-js/faker";
 
 const NUM_PRODUCTS = 1000;
 
+db.insert(td.users)
+  .values({
+    username: "alpha",
+  })
+  .run();
+
+db.insert(td.privateData)
+  .values({
+    username: "alpha",
+    password: "alpha",
+    permissions: 0,
+  })
+  .run();
+
 db.insert(td.suppliers)
   .values({
     id: 1,

@@ -4,8 +4,19 @@ import { HTTPException } from "hono/http-exception";
 import { validator } from "hono/validator";
 import { z } from "zod";
 import { SQL } from "drizzle-orm";
+import { PERMISSION, hasPermission } from "@/core/permissions";
 
 export const inventory = new Hono<{ Variables: Variables }>()
+  // Require user to be logged in
+  .use(async (c, next) => {
+    const user = c.get("user");
+    if (!user) {
+      throw new HTTPException(401);
+    }
+
+    await next();
+  })
+
   // List products
   .get(
     "/",
@@ -105,8 +116,12 @@ export const inventory = new Hono<{ Variables: Variables }>()
       return parsed.data;
     }),
     async (c) => {
-      const { m } = c.var;
+      const { m, user } = c.var;
       const data = c.req.valid("form");
+
+      if (!hasPermission(user!.permissions, PERMISSION.CREATE_PRODUCT)) {
+        throw new HTTPException(403);
+      }
 
       const product = await m.products.createOne(data);
 

@@ -15,3 +15,18 @@ export const products = sqliteTable("products", {
     .references(() => suppliers.id)
     .notNull(),
 });
+
+export const users = sqliteTable("users", {
+  username: text("username").primaryKey(),
+});
+
+export const privateData = sqliteTable("privateData", {
+  id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+  username: text("username")
+    .references(() => users.username, {
+      onDelete: "cascade",
+    })
+    .notNull(),
+  password: text("password").notNull(),
+  permissions: integer("permissions", { mode: "number" }).notNull(),
+});

@@ -2,18 +2,46 @@ import { Hono } from "hono";
 import { routes } from "./routes";
 import { logger } from "hono/logger";
 import { Products } from "@/core/models/products";
+import { Users } from "@/core/models/users";
+import { getCookie } from "hono/cookie";
+import { decode, verify } from "hono/jwt";
 
 export type Variables = {
   m: {
     products: Products;
+    users: Users;
   };
+  user: {
+    username: string;
+    permissions: number;
+  } | null;
 };
 
-export function createAPIApp(basePath: string, products: Products) {
+export function createAPIApp(
+  basePath: string,
+  products: Products,
+  users: Users
+) {
   const app = new Hono<{ Variables: Variables }>().basePath(basePath);
 
   app.use("*", async (c, next) => {
-    c.set("m", { products });
+    c.set("m", { products, users });
+    await next();
+  });
+
+  app.use("*", async (c, next) => {
+    const jwt = getCookie(c, "jwt");
+    if (!jwt) {
+      c.set("user", null);
+    } else {
+      await verify(jwt, process.env.JWT_SECRET!, "HS256");
+      const { payload } = decode(jwt);
+      c.set("user", {
+        username: payload.username,
+        permissions: payload.permissions,
+      });
+    }
+
     await next();
   });
 
@@ -26,8 +54,12 @@ export function createAPIApp(basePath: string, products: Products) {
   return app;
 }
 
-export function createRequestHandler(basePath: string, products: Products) {
-  const app = createAPIApp(basePath, products);
+export function createRequestHandler(
+  basePath: string,
+  products: Products,
+  users: Users
+) {
+  const app = createAPIApp(basePath, products, users);
 
   const requestHandler = (req: Request) => {
     return app.fetch(req);
