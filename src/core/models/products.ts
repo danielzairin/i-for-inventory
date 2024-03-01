@@ -1,7 +1,7 @@
 import { DB, td } from "@/core/db";
 import { InferSelectModel, eq } from "drizzle-orm";
 
-type Product = InferSelectModel<typeof td.products>;
+export type Product = InferSelectModel<typeof td.products>;
 
 export class Products {
   private db: DB;

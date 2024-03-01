@@ -1,5 +1,8 @@
 import { api } from "@/lib/api-client";
 import FilterForm from "./FilterForm";
+import Link from "next/link";
+
+export const dynamic = "force-dynamic";
 
 type Props = {
   searchParams: {
@@ -34,6 +37,7 @@ export default async function Page({ searchParams }: Props) {
             <th>Name</th>
             <th>Price</th>
             <th>Quantity</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +47,11 @@ export default async function Page({ searchParams }: Props) {
               <td>{product.name}</td>
               <td>{product.price}</td>
               <td>{product.quantity}</td>
+              <td>
+                <Link href={`/inventory/${product.id}`} prefetch={false}>
+                  View details
+                </Link>
+              </td>
             </tr>
           ))}
         </tbody>
