@@ -45,9 +45,12 @@ export default async function Page({ searchParams }: Props) {
         </summary>
         <FilterForm />
       </details>
-      <p className="italic my-4">
-        Tip: Click the table headers to sort by field.
-      </p>
+      <div className="flex justify-between items-center">
+        <p className="italic my-4">
+          Tip: Click the table headers to sort by field.
+        </p>
+        <Link href="/inventory/add-inventory">Add a product</Link>
+      </div>
       <table>
         <thead>
           <SortableTableHeaders />
@@ -59,9 +62,15 @@ export default async function Page({ searchParams }: Props) {
               <td>{product.name}</td>
               <td>{product.price}</td>
               <td>{product.quantity}</td>
-              <td>
+              <td className="flex gap-3">
                 <Link href={`/inventory/${product.id}`} prefetch={false}>
-                  View details
+                  View
+                </Link>
+                <Link href={`/inventory/${product.id}/edit`} prefetch={false}>
+                  Edit
+                </Link>
+                <Link href={`/inventory/${product.id}/delete`} prefetch={false}>
+                  Delete
                 </Link>
               </td>
             </tr>
