@@ -1,6 +1,10 @@
 import { createRequestHandler } from "@/api";
+import { db } from "@/core/db";
+import { Products } from "@/core/models/products";
 
-const handler = createRequestHandler("/api");
+const products = new Products(db);
+
+const handler = createRequestHandler("/api", products);
 
 export const GET = handler;
 export const POST = handler;

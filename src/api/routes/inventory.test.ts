@@ -1,7 +1,10 @@
 import { test, expect } from "vitest";
 import { createAPIApp } from "..";
+import { Products } from "@/core/models/products";
+import { db } from "@/core/db";
 
-const app = createAPIApp("/api");
+const products = new Products(db);
+const app = createAPIApp("/api", products);
 
 test("GET /inventory", async () => {
   const res = await app.request("/api/inventory", { method: "GET" });

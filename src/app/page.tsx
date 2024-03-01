@@ -7,12 +7,12 @@ export default async function Home() {
     throw Error(`failed to fetch inventory, status: ${res.status}`);
   }
 
-  const data = await res.text();
+  const data = await res.json();
 
   return (
     <main>
       <p>Hello, world</p>
-      <pre>{data}</pre>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </main>
   );
 }
