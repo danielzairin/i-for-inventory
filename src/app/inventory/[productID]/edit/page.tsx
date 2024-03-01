@@ -1,6 +1,6 @@
-import { api } from "@/lib/api-client";
 import EditProductForm from "./EditProductForm";
 import Link from "next/link";
+import { getServerAPICaller } from "@/lib/api-caller/server";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +11,7 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
+  const api = getServerAPICaller();
   const res = await api.inventory[":productID"].$get({
     param: params,
   });

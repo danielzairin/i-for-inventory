@@ -1,7 +1,7 @@
 "use client";
 
 import { Product } from "@/core/models/products";
-import { api } from "@/lib/api-client";
+import { getClientAPICaller } from "@/lib/api-caller/client";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -21,6 +21,7 @@ export default function EditProductForm({ product }: Props) {
 
   const handleSubmit = form.handleSubmit(async (values) => {
     try {
+      const api = getClientAPICaller();
       await api.inventory["update-inventory"].$post({
         form: {
           productID: String(product.id),

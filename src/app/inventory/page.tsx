@@ -1,7 +1,7 @@
-import { api } from "@/lib/api-client";
 import FilterForm from "./FilterForm";
 import Link from "next/link";
 import SortableTableHeaders from "./SortableTableHeaders";
+import { getServerAPICaller } from "@/lib/api-caller/server";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +16,7 @@ type Props = {
 };
 
 export default async function Page({ searchParams }: Props) {
+  const api = getServerAPICaller();
   const res = await api.inventory.$get({ query: searchParams });
 
   if (!res.ok) {

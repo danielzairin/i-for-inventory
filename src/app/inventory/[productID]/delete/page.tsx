@@ -1,6 +1,6 @@
-import { api } from "@/lib/api-client";
 import Link from "next/link";
 import { deleteAction } from "./_action";
+import { getServerAPICaller } from "@/lib/api-caller/server";
 
 type Props = {
   params: {
@@ -9,6 +9,7 @@ type Props = {
 };
 
 export default async function Page({ params }: Props) {
+  const api = getServerAPICaller();
   const res = await api.inventory[":productID"].$get({
     param: params,
   });
