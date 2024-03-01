@@ -5,19 +5,27 @@ import { faker } from "@faker-js/faker";
 
 const NUM_PRODUCTS = 1000;
 
-db.insert(td.users)
-  .values({
-    username: "alpha",
-  })
-  .run();
+const testAccounts = [
+  { username: "alpha", permissions: 15 },
+  { username: "beta", permissions: 6 },
+  { username: "charlie", permissions: 4 },
+];
 
-db.insert(td.privateData)
-  .values({
-    username: "alpha",
-    password: "alpha",
-    permissions: 0,
-  })
-  .run();
+for (const acc of testAccounts) {
+  db.insert(td.users)
+    .values({
+      username: acc.username,
+    })
+    .run();
+
+  db.insert(td.privateData)
+    .values({
+      username: acc.username,
+      password: acc.username,
+      permissions: acc.permissions,
+    })
+    .run();
+}
 
 db.insert(td.suppliers)
   .values({
