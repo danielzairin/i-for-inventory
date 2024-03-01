@@ -3,16 +3,44 @@ import { Variables } from "..";
 import { HTTPException } from "hono/http-exception";
 import { validator } from "hono/validator";
 import { z } from "zod";
+import { SQL } from "drizzle-orm";
 
 export const inventory = new Hono<{ Variables: Variables }>()
   // List products
-  .get("/", async (c) => {
-    const { m } = c.var;
+  .get(
+    "/",
+    validator("query", (value, c) => {
+      const parsed = z
+        .object({
+          ["name"]: z.string().optional(),
+          ["min_price"]: z.coerce.number().optional(),
+          ["max_price"]: z.coerce.number().optional(),
+        })
+        .safeParse(value);
 
-    const products = await m.products.findMany({});
+      if (!parsed.success) {
+        throw new HTTPException(400, { message: parsed.error.message });
+      }
 
-    return c.json(products);
-  })
+      return parsed.data;
+    }),
+    async (c) => {
+      const { m } = c.var;
+      const q = c.req.valid("query");
+
+      const products = await m.products.findMany({
+        where: (p, { like, lte, gte, and }) => {
+          const conditions: SQL[] = [];
+          if (q.name) conditions.push(like(p.name, `%${q.name}%`));
+          if (q.min_price) conditions.push(gte(p.price, q.min_price));
+          if (q.max_price) conditions.push(lte(p.price, q.max_price));
+          return and(...conditions);
+        },
+      });
+
+      return c.json(products);
+    }
+  )
 
   // Get a product
   .get(
