@@ -1,6 +1,7 @@
 import { api } from "@/lib/api-client";
 import FilterForm from "./FilterForm";
 import Link from "next/link";
+import SortableTableHeaders from "./SortableTableHeaders";
 
 export const dynamic = "force-dynamic";
 
@@ -9,6 +10,8 @@ type Props = {
     name?: string;
     min_price?: string;
     max_price?: string;
+    sort_field?: string;
+    sort_direction?: string;
   };
 };
 
@@ -30,15 +33,12 @@ export default async function Page({ searchParams }: Props) {
         </summary>
         <FilterForm />
       </details>
+      <p className="italic my-4">
+        Tip: Click the table headers to sort by field.
+      </p>
       <table>
         <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th></th>
-          </tr>
+          <SortableTableHeaders />
         </thead>
         <tbody>
           {products.map((product) => (

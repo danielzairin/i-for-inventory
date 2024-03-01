@@ -15,6 +15,10 @@ export const inventory = new Hono<{ Variables: Variables }>()
           ["name"]: z.string().optional(),
           ["min_price"]: z.coerce.number().optional(),
           ["max_price"]: z.coerce.number().optional(),
+          ["sort_field"]: z
+            .enum(["id", "name", "price", "quantity"])
+            .optional(),
+          ["sort_direction"]: z.enum(["asc", "desc"]).optional(),
         })
         .safeParse(value);
 
@@ -35,6 +39,12 @@ export const inventory = new Hono<{ Variables: Variables }>()
           if (q.min_price) conditions.push(gte(p.price, q.min_price));
           if (q.max_price) conditions.push(lte(p.price, q.max_price));
           return and(...conditions);
+        },
+        orderBy: (p, order) => {
+          if (!(q.sort_field && q.sort_direction)) {
+            return [];
+          }
+          return order[q.sort_direction](p[q.sort_field]);
         },
       });
 
