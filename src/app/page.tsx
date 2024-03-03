@@ -15,6 +15,11 @@ export default function Home() {
             Login
           </Link>
         </div>
+        <div>
+          <pre>
+            {JSON.stringify({ publicURL: process.env.NEXT_PUBLIC_BASE_URL })}
+          </pre>
+        </div>
       </article>
     </main>
   );
