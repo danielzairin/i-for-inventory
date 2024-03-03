@@ -1,3 +1,4 @@
+import * as argon2 from "argon2";
 import { DB } from "../db";
 
 export class Users {
@@ -16,7 +17,7 @@ export class Users {
       return false;
     }
 
-    return password === privateData.password;
+    return argon2.verify(privateData.hashedPassword, password);
   }
 
   async getPermissions(username: string): Promise<number> {

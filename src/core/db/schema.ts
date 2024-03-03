@@ -27,6 +27,6 @@ export const privateData = sqliteTable("privateData", {
       onDelete: "cascade",
     })
     .notNull(),
-  password: text("password").notNull(),
+  hashedPassword: text("hashed_password").notNull(),
   permissions: integer("permissions", { mode: "number" }).notNull(),
 });
