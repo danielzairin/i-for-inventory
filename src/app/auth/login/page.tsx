@@ -1,4 +1,5 @@
 import { getServerAPICaller } from "@/lib/api-caller/server";
+import { authRedirect } from "@/lib/utils/server";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -23,10 +24,14 @@ async function loginAction(formData: FormData) {
       password,
     },
   });
-  console.log("succ");
 
   if (!res.ok) {
-    throw Error(`Failed to login, status: ${res.status}`);
+    try {
+      const message = await res.text();
+      authRedirect(message);
+    } catch (err) {
+      throw err;
+    }
   }
 
   const { jwt } = await res.json();

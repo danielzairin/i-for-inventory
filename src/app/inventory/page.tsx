@@ -43,50 +43,61 @@ export default async function Page({ searchParams }: Props) {
   const products = await res.json();
 
   return (
-    <main className="container">
-      <Link href="/" className="inline-block mb-4">
-        Back to home page
-      </Link>
-      <h1>Inventory 📦</h1>
-      <details>
-        <summary>
-          <span>Filters 🔍</span>
-        </summary>
-        <FilterForm />
-      </details>
-      <div className="flex justify-between items-center">
-        <p className="italic my-4">
-          Tip: Click the table headers to sort by field.
-        </p>
-        <Link href="/inventory/add-inventory">Add a product</Link>
+    <main className="px-8">
+      <div className="flex gap-4">
+        <Link href="/" className="inline-block mb-4">
+          Back to home page
+        </Link>
+        <Link href="/auth/login" className="inline-block mb-4">
+          Change account
+        </Link>
       </div>
-      <table>
-        <thead>
-          <SortableTableHeaders />
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td>{product.id}</td>
-              <td>{product.name}</td>
-              <td>{product.price}</td>
-              <td>{product.quantity}</td>
-              <td className="flex gap-3">
-                <Link href={`/inventory/${product.id}`} prefetch={false}>
-                  View
-                </Link>
-                <Link href={`/inventory/${product.id}/edit`} prefetch={false}>
-                  Edit
-                </Link>
-                <Link href={`/inventory/${product.id}/delete`} prefetch={false}>
-                  Delete
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Pagination itemsPerPage={ITEMS_PER_PAGE} numItemsNow={products.length} />
+      <h1>Inventory 📦</h1>
+      <div className="flex gap-4">
+        <div className="self-start sticky top-8 min-w-fit">
+          <p>Filters 🔍</p>
+          <FilterForm />
+        </div>
+        <div className="flex-1">
+          <div className="flex justify-between items-end">
+            <p className="italic">
+              Tip: Click the table headers to sort by field.
+            </p>
+            <Link role="button" href="/inventory/add-inventory">
+              Add a product
+            </Link>
+          </div>
+          <table className="my-4 min-w-max striped">
+            <thead>
+              <SortableTableHeaders />
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product.id}>
+                  <td>{product.id}</td>
+                  <td>{product.name}</td>
+                  <td>{product.price}</td>
+                  <td>{product.quantity}</td>
+                  <td className="flex gap-3">
+                    <Link href={`/inventory/${product.id}`} prefetch={false}>
+                      View
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div
+            className="sticky bottom-0 right-0 left-0 py-4"
+            style={{ backgroundColor: "var(--pico-background-color)" }}
+          >
+            <Pagination
+              itemsPerPage={ITEMS_PER_PAGE}
+              numItemsNow={products.length}
+            />
+          </div>
+        </div>
+      </div>
     </main>
   );
 }
