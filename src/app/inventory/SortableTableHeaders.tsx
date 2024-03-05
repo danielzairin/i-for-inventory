@@ -9,7 +9,9 @@ export default function SortableTableHeaders() {
   const currSortedField = searchParams.get("sort_field");
   const currSortedDirection = searchParams.get("sort_direction");
 
-  const handleSort = (field: "id" | "name" | "price" | "quantity") => {
+  const handleSort = (
+    field: "id" | "name" | "price" | "quantity" | "supplierID"
+  ) => {
     const newSearchParams = new URLSearchParams(searchParams);
 
     if (currSortedField === field) {
@@ -52,6 +54,9 @@ export default function SortableTableHeaders() {
       </th>
       <th onClick={() => handleSort("quantity")} className="cursor-pointer">
         Quantity {currSortedField === "quantity" && <SortedIcon />}
+      </th>
+      <th onClick={() => handleSort("supplierID")} className="cursor-pointer">
+        Supplier {currSortedField === "supplierID" && <SortedIcon />}
       </th>
       <th>Actions</th>
     </tr>

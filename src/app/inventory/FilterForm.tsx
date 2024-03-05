@@ -1,5 +1,6 @@
 "use client";
 
+import { Supplier } from "@/core/models/suppliers";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -7,9 +8,14 @@ type FormValues = {
   name: string;
   min_price: string;
   max_price: string;
+  supplier_id: string;
 };
 
-export default function FilterForm() {
+type Props = {
+  suppliers: Supplier[];
+};
+
+export default function FilterForm({ suppliers }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -18,6 +24,7 @@ export default function FilterForm() {
       name: searchParams.get("name") || "",
       min_price: searchParams.get("min_price") || "",
       max_price: searchParams.get("max_price") || "",
+      supplier_id: searchParams.get("supplier_id") || "",
     },
   });
 
@@ -67,6 +74,17 @@ export default function FilterForm() {
             <input type="number" {...form.register("max_price")} />
           </label>
         </div>
+      </div>
+      <div>
+        <h4>Supplier</h4>
+        <select {...form.register("supplier_id")}>
+          <option value="">--</option>
+          {suppliers.map((supplier) => (
+            <option key={supplier.id} value={supplier.id}>
+              {supplier.name}
+            </option>
+          ))}
+        </select>
       </div>
       <button className="secondary" type="submit">
         Apply filter

@@ -6,6 +6,8 @@ import { mustGetSession } from "@/lib/session/server";
 import { PERMISSION, hasPermission } from "@/core/permissions";
 import { noPermissionRedirect } from "@/lib/utils/server";
 import { Pagination } from "./Pagination";
+import { Suppliers } from "@/core/models/suppliers";
+import { db } from "@/core/db";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +19,7 @@ type Props = {
     sort_field?: string;
     sort_direction?: string;
     offset?: string;
+    supplierID?: string;
   };
 };
 
@@ -42,6 +45,9 @@ export default async function Page({ searchParams }: Props) {
 
   const products = await res.json();
 
+  const supplierModel = new Suppliers(db);
+  const suppliers = await supplierModel.query.findMany({});
+
   return (
     <main className="px-8">
       <div className="flex gap-4">
@@ -56,7 +62,7 @@ export default async function Page({ searchParams }: Props) {
       <div className="flex gap-4">
         <div className="self-start sticky top-8 min-w-fit">
           <p>Filters 🔍</p>
-          <FilterForm />
+          <FilterForm suppliers={suppliers} />
         </div>
         <div className="flex-1">
           <div className="flex justify-between items-end">
@@ -78,6 +84,7 @@ export default async function Page({ searchParams }: Props) {
                   <td>{product.name}</td>
                   <td>{product.price}</td>
                   <td>{product.quantity}</td>
+                  <td>{product.supplier.name}</td>
                   <td className="flex gap-3">
                     <Link href={`/inventory/${product.id}`} prefetch={false}>
                       View

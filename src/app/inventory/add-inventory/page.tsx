@@ -75,7 +75,7 @@ export default async function Page() {
 
 async function SelectSupplierInput() {
   const suppliersModel = new Suppliers(db);
-  const suppliers = await suppliersModel.findMany({});
+  const suppliers = await suppliersModel.query.findMany({});
 
   return (
     <select name="supplierID" required>

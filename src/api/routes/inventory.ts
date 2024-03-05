@@ -26,8 +26,9 @@ export const inventory = new Hono<{ Variables: Variables }>()
           ["name"]: z.string().optional(),
           ["min_price"]: z.coerce.number().optional(),
           ["max_price"]: z.coerce.number().optional(),
+          ["supplierID"]: z.coerce.number().optional(),
           ["sort_field"]: z
-            .enum(["id", "name", "price", "quantity"])
+            .enum(["id", "name", "price", "quantity", "supplierID"])
             .optional(),
           ["sort_direction"]: z.enum(["asc", "desc"]).optional(),
           ["limit"]: z.coerce.number().min(0).optional(),
@@ -49,12 +50,16 @@ export const inventory = new Hono<{ Variables: Variables }>()
         throw new HTTPException(403);
       }
 
-      const products = await m.products.findMany({
-        where: (p, { like, lte, gte, and }) => {
+      const products = await m.products.query.findMany({
+        with: {
+          supplier: true,
+        },
+        where: (p, { like, lte, gte, and, eq }) => {
           const conditions: SQL[] = [];
           if (q.name) conditions.push(like(p.name, `%${q.name}%`));
           if (q.min_price) conditions.push(gte(p.price, q.min_price));
           if (q.max_price) conditions.push(lte(p.price, q.max_price));
+          if (q.supplierID) conditions.push(eq(p.supplierID, q.supplierID));
           return and(...conditions);
         },
         orderBy: (p, order) => {
@@ -95,7 +100,7 @@ export const inventory = new Hono<{ Variables: Variables }>()
         throw new HTTPException(403);
       }
 
-      const product = await m.products.findFirst({
+      const product = await m.products.query.findFirst({
         where: (p, { eq }) => eq(p.id, productID),
       });
 

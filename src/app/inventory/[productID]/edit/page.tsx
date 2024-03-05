@@ -33,7 +33,7 @@ export default async function Page({ params }: Props) {
   const product = await res.json();
 
   const supplierModel = new Suppliers(db);
-  const suppliers = await supplierModel.findMany({});
+  const suppliers = await supplierModel.query.findMany({});
 
   return (
     <main className="container">

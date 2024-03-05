@@ -10,7 +10,7 @@ export class Suppliers {
     this.db = db;
   }
 
-  findMany(...params: Parameters<typeof this.db.query.suppliers.findMany>) {
-    return this.db.query.suppliers.findMany(...params);
+  get query() {
+    return this.db.query.suppliers;
   }
 }

@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import { text, integer, sqliteTable } from "drizzle-orm/sqlite-core";
 
 export const suppliers = sqliteTable("suppliers", {
@@ -15,6 +15,13 @@ export const products = sqliteTable("products", {
     .references(() => suppliers.id)
     .notNull(),
 });
+
+export const productsRelations = relations(products, ({ one }) => ({
+  supplier: one(suppliers, {
+    fields: [products.supplierID],
+    references: [suppliers.id],
+  }),
+}));
 
 export const users = sqliteTable("users", {
   username: text("username").primaryKey(),

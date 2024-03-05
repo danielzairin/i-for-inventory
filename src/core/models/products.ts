@@ -10,12 +10,8 @@ export class Products {
     this.db = db;
   }
 
-  findMany(...params: Parameters<typeof this.db.query.products.findMany>) {
-    return this.db.query.products.findMany(...params);
-  }
-
-  findFirst(...params: Parameters<typeof this.db.query.products.findFirst>) {
-    return this.db.query.products.findFirst(...params);
+  get query() {
+    return this.db.query.products;
   }
 
   async createOne(
