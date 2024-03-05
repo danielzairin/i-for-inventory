@@ -8,7 +8,7 @@ type FormValues = {
   name: string;
   min_price: string;
   max_price: string;
-  supplier_id: string;
+  supplierID: string;
 };
 
 type Props = {
@@ -24,7 +24,7 @@ export default function FilterForm({ suppliers }: Props) {
       name: searchParams.get("name") || "",
       min_price: searchParams.get("min_price") || "",
       max_price: searchParams.get("max_price") || "",
-      supplier_id: searchParams.get("supplier_id") || "",
+      supplierID: searchParams.get("supplierID") || "",
     },
   });
 
@@ -77,7 +77,7 @@ export default function FilterForm({ suppliers }: Props) {
       </div>
       <div>
         <h4>Supplier</h4>
-        <select {...form.register("supplier_id")}>
+        <select {...form.register("supplierID")}>
           <option value="">--</option>
           {suppliers.map((supplier) => (
             <option key={supplier.id} value={supplier.id}>
