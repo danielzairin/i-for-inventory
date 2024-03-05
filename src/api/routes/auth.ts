@@ -46,7 +46,11 @@ export const auth = new Hono<{ Variables: Variables }>().post(
       "HS256"
     );
 
-    setCookie(c, "jwt", jwt, { secure: true });
+    setCookie(c, "jwt", jwt, {
+      secure: true,
+      maxAge: 3 * 24 * 60 * 60,
+      sameSite: "Lax",
+    });
 
     return c.json({ jwt });
   }

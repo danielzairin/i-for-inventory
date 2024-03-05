@@ -37,7 +37,11 @@ async function loginAction(formData: FormData) {
 
   const { jwt } = await res.json();
 
-  cookies().set("jwt", jwt);
+  cookies().set("jwt", jwt, {
+    secure: true,
+    maxAge: 3 * 24 * 60 * 60,
+    sameSite: "lax",
+  });
   redirect("/inventory");
 }
 
