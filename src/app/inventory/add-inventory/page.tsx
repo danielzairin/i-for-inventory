@@ -5,6 +5,7 @@ import { noPermissionRedirect } from "@/lib/utils/server";
 import { getServerAPICaller } from "@/lib/api-caller/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import SubmitButton from "@/components/SubmitButton";
 
 export const dynamic = "force-dynamic";
 
@@ -59,9 +60,9 @@ export default async function Page() {
           Supplier ID
           <input name="supplierID" type="number" required value={1} readOnly />
         </label>
-        <button className="secondary" type="submit">
+        <SubmitButton className="secondary">
           Add product to inventory
-        </button>
+        </SubmitButton>
       </form>
     </main>
   );

@@ -1,3 +1,4 @@
+import SubmitButton from "@/components/SubmitButton";
 import { getServerAPICaller } from "@/lib/api-caller/server";
 import { authRedirect } from "@/lib/utils/server";
 import { cookies } from "next/headers";
@@ -60,7 +61,7 @@ export default async function Page({ searchParams }: Props) {
             Password
             <input type="password" name="password" required />
           </label>
-          <button type="submit">Login</button>
+          <SubmitButton>Login</SubmitButton>
         </form>
         <Link href="/demo-accounts" className="block text-center">
           View demo accounts

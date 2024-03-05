@@ -4,6 +4,7 @@ import { getServerAPICaller } from "@/lib/api-caller/server";
 import { hasPermission, PERMISSION } from "@/core/permissions";
 import { mustGetSession } from "@/lib/session/server";
 import { noPermissionRedirect } from "@/lib/utils/server";
+import SubmitButton from "@/components/SubmitButton";
 
 type Props = {
   params: {
@@ -36,9 +37,7 @@ export default async function Page({ params }: Props) {
         <pre className="p-4">{JSON.stringify(product, null, 2)}</pre>
         <form action={deleteAction}>
           <input type="hidden" name="productID" defaultValue={product.id} />
-          <button className="secondary" type="submit">
-            Yes, delete
-          </button>
+          <SubmitButton className="secondary">Yes, delete</SubmitButton>
         </form>
         <Link href={`/inventory/${product.id}`} className="text-center block">
           No, return to product page

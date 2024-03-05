@@ -1,5 +1,6 @@
 "use client";
 
+import SubmitButton from "@/components/SubmitButton";
 import { Product } from "@/core/models/products";
 import { getClientAPICaller } from "@/lib/api-caller/client";
 import { useRouter } from "next/navigation";
@@ -65,9 +66,7 @@ export default function EditProductForm({ product }: Props) {
           disabled
         />
       </label>
-      <button className="secondary" type="submit">
-        Save product details
-      </button>
+      <SubmitButton className="secondary">Save product details</SubmitButton>
     </form>
   );
 }
