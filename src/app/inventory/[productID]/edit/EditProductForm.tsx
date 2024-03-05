@@ -2,15 +2,17 @@
 
 import SubmitButton from "@/components/SubmitButton";
 import { Product } from "@/core/models/products";
+import { Supplier } from "@/core/models/suppliers";
 import { getClientAPICaller } from "@/lib/api-caller/client";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 type Props = {
   product: Product;
+  suppliers: Supplier[];
 };
 
-export default function EditProductForm({ product }: Props) {
+export default function EditProductForm({ product, suppliers }: Props) {
   const router = useRouter();
   const form = useForm({
     defaultValues: {
@@ -59,12 +61,13 @@ export default function EditProductForm({ product }: Props) {
       </label>
       <label>
         Supplier
-        <input
-          type="number"
-          required
-          defaultValue={product.supplierID}
-          disabled
-        />
+        <select name="supplierID" required>
+          {suppliers.map((supplier) => (
+            <option key={supplier.id} value={supplier.id}>
+              {supplier.name}
+            </option>
+          ))}
+        </select>
       </label>
       <SubmitButton className="secondary">Save product details</SubmitButton>
     </form>

@@ -4,6 +4,8 @@ import { getServerAPICaller } from "@/lib/api-caller/server";
 import { hasPermission, PERMISSION } from "@/core/permissions";
 import { mustGetSession } from "@/lib/session/server";
 import { noPermissionRedirect } from "@/lib/utils/server";
+import { Suppliers } from "@/core/models/suppliers";
+import { db } from "@/core/db";
 
 export const dynamic = "force-dynamic";
 
@@ -30,13 +32,16 @@ export default async function Page({ params }: Props) {
 
   const product = await res.json();
 
+  const supplierModel = new Suppliers(db);
+  const suppliers = await supplierModel.findMany({});
+
   return (
     <main className="container">
       <Link href={`/inventory/${product.id}`} className="mb-4 inline-block">
         Back to product page
       </Link>
       <h1>Edit Product</h1>
-      <EditProductForm product={product} />
+      <EditProductForm product={product} suppliers={suppliers} />
     </main>
   );
 }

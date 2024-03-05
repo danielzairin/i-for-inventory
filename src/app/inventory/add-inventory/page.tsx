@@ -6,6 +6,9 @@ import { getServerAPICaller } from "@/lib/api-caller/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import SubmitButton from "@/components/SubmitButton";
+import { Suppliers } from "@/core/models/suppliers";
+import { db } from "@/core/db";
+import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 
@@ -57,13 +60,30 @@ export default async function Page() {
           <input name="quantity" type="number" min="0" required />
         </label>
         <label>
-          Supplier ID
-          <input name="supplierID" type="number" required value={1} readOnly />
+          Supplier
+          <Suspense>
+            <SelectSupplierInput />
+          </Suspense>
         </label>
         <SubmitButton className="secondary">
           Add product to inventory
         </SubmitButton>
       </form>
     </main>
+  );
+}
+
+async function SelectSupplierInput() {
+  const suppliersModel = new Suppliers(db);
+  const suppliers = await suppliersModel.findMany({});
+
+  return (
+    <select name="supplierID" required>
+      {suppliers.map((supplier) => (
+        <option key={supplier.id} value={supplier.id}>
+          {supplier.name}
+        </option>
+      ))}
+    </select>
   );
 }
