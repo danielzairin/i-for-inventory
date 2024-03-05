@@ -31,15 +31,13 @@ export default async function Page({ params }: Props) {
 
   return (
     <main className="container">
-      <Link href="/inventory" className="mb-4 inline-block" prefetch={false}>
+      <Link href="/inventory" className="mb-4 inline-block">
         Back to Inventory 📦
       </Link>
       <h1>{product.name}</h1>
       <pre className="p-4">{JSON.stringify(product, null, 2)}</pre>
       <div className="flex gap-4">
-        <Link href={`/inventory/${product.id}/edit`} prefetch={false}>
-          Edit
-        </Link>
+        <Link href={`/inventory/${product.id}/edit`}>Edit</Link>
         <Link href={`/inventory/${product.id}/delete`}>Delete</Link>
       </div>
     </main>

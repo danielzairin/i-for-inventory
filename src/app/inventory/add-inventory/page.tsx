@@ -39,7 +39,7 @@ export default async function Page() {
 
   return (
     <main className="container">
-      <Link href="/inventory" className="mb-4 inline-block" prefetch={false}>
+      <Link href="/inventory" className="mb-4 inline-block">
         Back to Inventory 📦
       </Link>
       <h1>Add Product</h1>
