@@ -55,7 +55,7 @@ test("GET /inventory/:productID", async () => {
 test("POST /inventory/add-inventory", async () => {
   const data = {
     name: faker.commerce.productName(),
-    price: faker.number.int({ min: 1000, max: 10000 }),
+    price: faker.number.int({ min: 10, max: 1000 }),
     quantity: faker.number.int({ min: 0, max: 10 }),
     supplierID: 1,
   };

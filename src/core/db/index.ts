@@ -6,8 +6,8 @@ if (!process.env.DATABASE_URL) {
   throw Error("missing environment variable: DATABASE_URL");
 }
 
-if (!process.env.DATABASE_AUTH_TOKEN) {
-  throw Error("missing environment variable: DATABASE_URL");
+if (process.env.NODE_ENV === "production" && !process.env.DATABASE_AUTH_TOKEN) {
+  throw Error("missing environment variable: DATABASE_AUTH_TOKEN");
 }
 
 const dbClient = createClient({
