@@ -1,38 +1,63 @@
-## Overview
+## Description
 
 This project is a kickstart to an Inventory Management System, prioritizing simplicity and minimal dependencies. Built with Next.js + Hono and deployed on Vercel, it offers essential features for tracking inventory and updating products.
 
-## Demo
+## Motivation
 
-The app _should_ be live at https://nextjs-inventory-management.vercel.app
+The goal of this project was to build a Inventory Management System in roughly a single day.
 
-## Development
+To stay productive both in the short term and longer term, I use tools that are minimal and focused on reducing complexity:
 
-Initialize the SQLite database and seed some data.
+- NextJS, React server components and server actions, over managing state client-side.
+- Hono and serverless architecture, over standalone JSON APIs and servers.
+- SQLite and Turso, over self-managed databases.
 
-- Make sure you have a .env file too.
-- You can copy the existing .env.example file and it will work for local development.
+## Quick Start
+
+The application is deployed live [here](https://nextjs-inventory-management.vercel.app/auth/login).
+
+Login with the demo account:
+
+- **Username:** `alpha`
+- **Password**: `alpha`
+
+You can find other demo accounts with different permissions [here](https://nextjs-inventory-management.vercel.app/demo-accounts).
+
+## Contributing
+
+To run the application locally, you will need the following installed on your machine:
+
+- Node.js with a **minimum version of 18.17**
+
+### Clone the repository and install dependencies
+
+```
+git clone https://github.com/danielzairin/nextjs-inventory-management.git
+cd nextjs-inventory-management/
+npm install
+```
+
+### Copy the example .env file
+
+```
+cp .env.example .env
+```
+
+### Create the SQLite database and seed some data
 
 ```
 npx drizzle-kit push:sqlite
 npx tsx scripts/seed-db.ts
 ```
 
-Run the tests, check everything works.
+### Run the tests, check that everything works
 
 ```
 npx vitest
 ```
 
-Install and start the dev server.
+### Start the dev server and code away!
 
 ```
-npm install
 npm run dev
 ```
-
-## Technologies Used
-
-- NextJS app directory + React v18's new "server" capabilities
-- Hono to keep the backend APIs portable
-- SQLite, drizzle-orm and turso
