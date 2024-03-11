@@ -1,6 +1,7 @@
 ## Description
 
 This project is a kickstart to an Inventory Management System, prioritizing simplicity and minimal dependencies.
+
 ## Motivation
 
 The goal of this project was to build a Inventory Management System in roughly a single day.
@@ -31,8 +32,8 @@ To run the application locally, you will need the following installed on your ma
 ### Clone the repository and install dependencies
 
 ```
-git clone https://github.com/danielzairin/nextjs-inventory-management.git
-cd nextjs-inventory-management/
+git clone https://github.com/danielzairin/i-for-inventory.git
+cd i-for-inventory/
 npm install
 ```
 
