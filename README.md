@@ -5,7 +5,7 @@ This project is a kickstart to an Inventory Management System, prioritizing simp
 
 The goal of this project was to build a Inventory Management System in roughly a single day.
 
-To stay productive both in the short term and longer term, I use tools that are minimal and focused on reducing complexity:
+To stay productive and speedy, I use tools that are minimal and focused on reducing complexity:
 
 - NextJS, React server components and server actions, over managing state client-side.
 - Hono and serverless architecture, over standalone JSON APIs and servers.
