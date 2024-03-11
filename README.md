@@ -1,7 +1,6 @@
 ## Description
 
-This project is a kickstart to an Inventory Management System, prioritizing simplicity and minimal dependencies. Built with Next.js + Hono and deployed on Vercel, it offers essential features for tracking inventory and updating products.
-
+This project is a kickstart to an Inventory Management System, prioritizing simplicity and minimal dependencies.
 ## Motivation
 
 The goal of this project was to build a Inventory Management System in roughly a single day.
